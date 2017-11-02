@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (v.getId() == R.id.btStartDownload){
             LogUtil.e("download","===点击下载===");
             DownloadEnty downloadEnty = new DownloadEnty();
-            downloadEnty.id = "1";
+            downloadEnty.id = 1;
             downloadEnty.fileUrl = "http://192.168.1.9:8080/csy.jpg";
             DownloadManager.getInstance().addEnty(MainActivity.this,downloadEnty);
         }

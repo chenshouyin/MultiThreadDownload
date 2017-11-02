@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 
 public class DownloadEnty implements Serializable{
-    public String id;
+    public int id;
     public String fileUrl;
     public int currentLenth;
     public int totalLenth;

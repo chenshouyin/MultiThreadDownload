@@ -36,6 +36,13 @@ public class DownloadManager  {
 
     }
 
+    public void canselEnty(){
+
+    }
+
+     public void resumEnty(){
+
+     }
 
     public void addObserve(DataWhatcher dataWhatcher){
         DataChanger.getInstance().addObserver(dataWhatcher);

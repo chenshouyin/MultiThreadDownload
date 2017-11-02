@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import multithreaddownload.csy.com.multithreaddownload.utils.Constant;
 import multithreaddownload.csy.com.multithreaddownload.utils.LogUtil;
 
@@ -15,6 +18,9 @@ import multithreaddownload.csy.com.multithreaddownload.utils.LogUtil;
  */
 
 public class DownloadService extends Service{
+
+    private Map<Integer,DownloadTask> downloadTasks = new HashMap();
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -38,17 +44,52 @@ public class DownloadService extends Service{
 
         if (Constant.KEY_DOWNLOAD_ADD.equals(intent.getAction())){
             //开始下载
-            downloadEnty.downloadStatus = DownloadEnty.DownloadStatus.downloading;
-            DownloadManager.getInstance().postStatus(downloadEnty);
             LogUtil.e("download","===KEY_DOWNLOAD_ADD===");
-            for(int i=0;i<1024*100;i+=1024){
-                downloadEnty.currentLenth += 1024;
-                DownloadManager.getInstance().postStatus(downloadEnty);
-            }
-            downloadEnty.downloadStatus = DownloadEnty.DownloadStatus.downloadcomplete;
-            DownloadManager.getInstance().postStatus(downloadEnty);
+            startDownload(downloadEnty);
+        }else if(Constant.KEY_DOWNLOAD_PAUSE.equals(intent.getAction())){
+            //暂停下载
+            LogUtil.e("download","===KEY_DOWNLOAD_PAUSE===");
+            pauseDownload(downloadEnty);
+        }else if(Constant.KEY_DOWNLOAD_CANSEL.equals(intent.getAction())){
+            //取消下载
+            LogUtil.e("download","===KEY_DOWNLOAD_RESUM===");
+            canselDownload(downloadEnty);
+        }else if(Constant.KEY_DOWNLOAD_RESUM.equals(intent.getAction())){
+            //恢复下载
+            LogUtil.e("download","===KEY_DOWNLOAD_RESUM===");
+            resumDownload(downloadEnty);
         }
 
+    }
+
+    private void resumDownload(DownloadEnty downloadEnty) {
+        DownloadTask task = downloadTasks.get(downloadEnty.id);
+        if (task!=null){
+            task.resumDownload();
+        }
+    }
+
+    private void canselDownload(DownloadEnty downloadEnty) {
+        DownloadTask task = downloadTasks.remove(downloadEnty.id);
+        if (task!=null){
+            task.canselDownload();
+        }
+
+    }
+
+    private void pauseDownload(DownloadEnty downloadEnty) {
+        DownloadTask task = downloadTasks.remove(downloadEnty.id);
+        if (task!=null){
+            task.pauseDownload();
+        }
+    }
+
+
+    private void startDownload(DownloadEnty downloadEnty) {
+
+        DownloadTask downloadTask = new DownloadTask(downloadEnty);
+        downloadTasks.put(downloadEnty.id,downloadTask);
+        downloadTask.startDownload();
     }
 
 
