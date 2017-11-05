@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import multithreaddownload.csy.com.multithreaddownload.utils.Constant;
 import multithreaddownload.csy.com.multithreaddownload.utils.LogUtil;
@@ -20,7 +22,7 @@ import multithreaddownload.csy.com.multithreaddownload.utils.LogUtil;
 public class DownloadService extends Service{
 
     private Map<Integer,DownloadTask> downloadTasks = new HashMap();
-
+    private ExecutorService executorService;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -63,10 +65,8 @@ public class DownloadService extends Service{
     }
 
     private void resumDownload(DownloadEnty downloadEnty) {
-        DownloadTask task = downloadTasks.get(downloadEnty.id);
-        if (task!=null){
-            task.resumDownload();
-        }
+        //恢复也是调用开始方法
+        startDownload(downloadEnty);
     }
 
     private void canselDownload(DownloadEnty downloadEnty) {
@@ -89,7 +89,15 @@ public class DownloadService extends Service{
 
         DownloadTask downloadTask = new DownloadTask(downloadEnty);
         downloadTasks.put(downloadEnty.id,downloadTask);
-        downloadTask.startDownload();
+        //downloadTask.startDownload();
+        getExecutorService().execute(downloadTask);
+    }
+
+    private synchronized ExecutorService getExecutorService(){
+        if (executorService == null){
+            executorService = Executors.newCachedThreadPool();
+        }
+        return executorService;
     }
 
 

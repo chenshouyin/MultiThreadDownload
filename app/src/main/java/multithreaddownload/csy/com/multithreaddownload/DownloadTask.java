@@ -23,7 +23,7 @@ public class DownloadTask implements Runnable {
         downloadEnty.downloadStatus = DownloadEnty.DownloadStatus.downloading;
         DownloadManager.getInstance().postStatus(downloadEnty);
 
-        for(int i=0;i<1024*100;i+=1024){
+        for(int i=downloadEnty.currentLenth;i<1024*100;i+=1024){
             if (isCanseled || isPaused){
                 //更新取消或暂停状态
                 downloadEnty.downloadStatus = isCanseled ? DownloadEnty.DownloadStatus.downloadcansel:DownloadEnty.DownloadStatus.downloadpause;
@@ -33,6 +33,11 @@ public class DownloadTask implements Runnable {
             downloadEnty.currentLenth += 1024;
             //更新现在进度
             DownloadManager.getInstance().postStatus(downloadEnty);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         //下载完成,更新状态
         downloadEnty.downloadStatus = DownloadEnty.DownloadStatus.downloadcomplete;
@@ -40,6 +45,7 @@ public class DownloadTask implements Runnable {
     }
 
     public void resumDownload() {
+        isPaused = false;
     }
 
     public void canselDownload() {

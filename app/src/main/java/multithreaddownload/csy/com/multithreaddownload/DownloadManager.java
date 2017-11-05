@@ -13,6 +13,7 @@ import multithreaddownload.csy.com.multithreaddownload.utils.Constant;
 
 public class DownloadManager  {
     private static DownloadManager downloadManager;
+
     public synchronized static DownloadManager getInstance(){
         if (null == null){
             downloadManager = new DownloadManager();
@@ -32,16 +33,25 @@ public class DownloadManager  {
         context.startService(intent);
     }
 
-    public void pauseEnty(){
-
+    public void pauseEnty(Context context,DownloadEnty downloadEnty){
+        Intent intent = new Intent(context,DownloadService.class);
+        intent.putExtra(Constant.KEY_DOWNLOAD_ENTY, downloadEnty);
+        intent.setAction(Constant.KEY_DOWNLOAD_PAUSE);
+        context.startService(intent);
     }
 
-    public void canselEnty(){
-
+    public void canselEnty(Context context,DownloadEnty donloadEnty){
+        Intent intent = new Intent(context,DownloadService.class);
+        intent.putExtra(Constant.KEY_DOWNLOAD_ENTY, donloadEnty);
+        intent.setAction(Constant.KEY_DOWNLOAD_CANSEL);
+        context.startService(intent);
     }
 
-     public void resumEnty(){
-
+     public void resumEnty(Context context,DownloadEnty downloadEnty){
+         Intent intent = new Intent(context,DownloadService.class);
+         intent.putExtra(Constant.KEY_DOWNLOAD_ENTY, downloadEnty);
+         intent.setAction(Constant.KEY_DOWNLOAD_RESUM);
+         context.startService(intent);
      }
 
     public void addObserve(DataWhatcher dataWhatcher){
