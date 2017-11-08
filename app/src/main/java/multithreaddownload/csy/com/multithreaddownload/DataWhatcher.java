@@ -18,4 +18,5 @@ public abstract class DataWhatcher implements Observer {
     }
 
     public abstract void notifyDataChange(Object data);
+
 }

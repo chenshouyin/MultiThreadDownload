@@ -17,6 +17,14 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".SingleTaskActivity">
+
+        </activity>
+
+        <activity android:name=".MultiTaskActivity">
+
+        </activity>
+
         <service android:name=".DownloadService"></service>
     </application>
 

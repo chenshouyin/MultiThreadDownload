@@ -7,18 +7,24 @@
     tools:context="multithreaddownload.csy.com.multithreaddownload.MainActivity">
 
     <Button
-        android:text="单任务下载"
-        android:id="@+id/btSingle"
+        android:text="开始下载"
+        android:id="@+id/btStartDownload"
         android:layout_width="match_parent"
         android:layout_height="45dp" />
 
     <Button
         android:layout_marginTop="20dp"
         android:layout_below="@+id/btStartDownload"
-        android:text="列表多任务下载"
-        android:id="@+id/btMuilty"
+        android:text="暂停下载"
+        android:id="@+id/btPause"
         android:layout_width="match_parent"
         android:layout_height="45dp" />
 
-
+    <Button
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/btPause"
+        android:text="取消下载"
+        android:id="@+id/btCansel"
+        android:layout_width="match_parent"
+        android:layout_height="45dp" />
 </RelativeLayout>
