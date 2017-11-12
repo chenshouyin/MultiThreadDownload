@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceStatu) {
         super.onCreate(savedInstanceStatu);
         setContentView(R.layout.activity_main);
-
+        initView();
     }
 
     private void initView() {
@@ -29,10 +29,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (v == btSingle){
+        if (v.getId() == R.id.btSingle){
             Intent intent = new Intent(MainActivity.this,SingleTaskActivity.class);
             startActivity(intent);
-        }else if (v == btMuilty){
+        }else if (v.getId() == R.id.btMuilty){
             Intent intent = new Intent(MainActivity.this,MultiTaskActivity.class);
             startActivity(intent);
         }

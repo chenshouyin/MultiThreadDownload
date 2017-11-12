@@ -25,7 +25,6 @@
 
         </activity>
 
-        <service android:name=".DownloadService"></service>
     </application>
 
 </manifest>

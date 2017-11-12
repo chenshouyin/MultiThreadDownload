@@ -1,4 +1,4 @@
-package multithreaddownload.csy.com.multithreaddownload;
+package multithreaddownload.csy.com.downloadlib;
 
 /**
  * Created by chenshouyin on 2017/10/25.

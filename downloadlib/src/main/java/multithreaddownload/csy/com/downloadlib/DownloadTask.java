@@ -1,4 +1,4 @@
-package multithreaddownload.csy.com.multithreaddownload;
+package multithreaddownload.csy.com.downloadlib;
 
 /**
  * Created by chenshouyin on 2017/10/30.
@@ -22,8 +22,8 @@ public class DownloadTask implements Runnable {
     public void startDownload() {
         downloadEnty.downloadStatus = DownloadEnty.DownloadStatus.downloading;
         DownloadManager.getInstance().postStatus(downloadEnty);
-
-        for(int i=downloadEnty.currentLenth;i<1024*100;i+=1024){
+        downloadEnty.totalLenth = 1024*100;
+        for(int i=downloadEnty.currentLenth;i<downloadEnty.totalLenth;i+=1024){
             if (isCanseled || isPaused){
                 //更新取消或暂停状态
                 downloadEnty.downloadStatus = isCanseled ? DownloadEnty.DownloadStatus.downloadcansel:DownloadEnty.DownloadStatus.downloadpause;

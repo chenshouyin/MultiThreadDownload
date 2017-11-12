@@ -14,7 +14,7 @@
 
     <Button
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/btStartDownload"
+        android:layout_below="@+id/btSingle"
         android:text="列表多任务下载"
         android:id="@+id/btMuilty"
         android:layout_width="match_parent"

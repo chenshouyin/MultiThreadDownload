@@ -5,7 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import multithreaddownload.csy.com.multithreaddownload.utils.LogUtil;
+import multithreaddownload.csy.com.downloadlib.DataWhatcher;
+import multithreaddownload.csy.com.downloadlib.DownloadEnty;
+import multithreaddownload.csy.com.downloadlib.DownloadManager;
+import multithreaddownload.csy.com.downloadlib.utils.LogUtil;
+
 
 public class SingleTaskActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -59,7 +63,7 @@ public class SingleTaskActivity extends AppCompatActivity implements View.OnClic
         if (v.getId() == R.id.btStartDownload){
             if (downloadEnty == null){
                 downloadEnty = new DownloadEnty();
-                downloadEnty.id = 1;
+                downloadEnty.id = "1";
                 downloadEnty.fileUrl = "http://api.stay4it.com/uploads/test.jpg";
                 downloadManager.addEnty(SingleTaskActivity.this,downloadEnty);
                 LogUtil.e("download","===addEnty===");

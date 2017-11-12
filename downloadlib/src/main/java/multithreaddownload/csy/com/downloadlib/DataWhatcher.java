@@ -1,4 +1,4 @@
-package multithreaddownload.csy.com.multithreaddownload;
+package multithreaddownload.csy.com.downloadlib;
 
 import java.util.Observable;
 import java.util.Observer;

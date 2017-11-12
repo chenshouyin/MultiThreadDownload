@@ -1,9 +1,9 @@
-package multithreaddownload.csy.com.multithreaddownload;
+package multithreaddownload.csy.com.downloadlib;
 
 import android.content.Context;
 import android.content.Intent;
 
-import multithreaddownload.csy.com.multithreaddownload.utils.Constant;
+import multithreaddownload.csy.com.downloadlib.utils.Constant;
 
 /**
  * Created by chenshouyin on 2017/10/30.

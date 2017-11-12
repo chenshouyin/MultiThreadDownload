@@ -1,4 +1,4 @@
-package multithreaddownload.csy.com.multithreaddownload;
+package multithreaddownload.csy.com.downloadlib;
 
 import android.app.Service;
 import android.content.Intent;
@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import multithreaddownload.csy.com.multithreaddownload.utils.Constant;
-import multithreaddownload.csy.com.multithreaddownload.utils.LogUtil;
+import multithreaddownload.csy.com.downloadlib.utils.Constant;
+import multithreaddownload.csy.com.downloadlib.utils.LogUtil;
 
 /**
  * Created by chenshouyin on 2017/10/30.
@@ -21,7 +21,7 @@ import multithreaddownload.csy.com.multithreaddownload.utils.LogUtil;
 
 public class DownloadService extends Service{
 
-    private Map<Integer,DownloadTask> downloadTasks = new HashMap();
+    private Map<String,DownloadTask> downloadTasks = new HashMap();
     private ExecutorService executorService;
     @Nullable
     @Override

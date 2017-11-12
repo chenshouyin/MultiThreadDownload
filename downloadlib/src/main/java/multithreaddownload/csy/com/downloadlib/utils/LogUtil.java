@@ -1,4 +1,4 @@
-package multithreaddownload.csy.com.multithreaddownload.utils;
+package multithreaddownload.csy.com.downloadlib.utils;
 
 import android.util.Log;
 

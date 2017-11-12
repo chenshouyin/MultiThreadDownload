@@ -1,4 +1,4 @@
-package multithreaddownload.csy.com.multithreaddownload;
+package multithreaddownload.csy.com.downloadlib;
 
 import java.io.Serializable;
 
@@ -9,10 +9,28 @@ import java.io.Serializable;
  */
 
 public class DownloadEnty implements Serializable{
-    public int id;
+    public String id;
     public String fileUrl;
+    public String fileName;
     public int currentLenth;
     public int totalLenth;
     public enum DownloadStatus{downloading,downloadcansel,downloadcomplete,downloadpause,downloadresum}
     public DownloadStatus downloadStatus;
+
+
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj.hashCode() == this.hashCode();
+    }
+
+    /**
+     * 重写hascode,用于比较对象是否相等,根据ID
+     * @return
+     */
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }
