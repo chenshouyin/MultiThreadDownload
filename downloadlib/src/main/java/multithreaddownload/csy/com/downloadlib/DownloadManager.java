@@ -47,12 +47,12 @@ public class DownloadManager  {
         context.startService(intent);
     }
 
-     public void resumEnty(Context context,DownloadEnty downloadEnty){
-         Intent intent = new Intent(context,DownloadService.class);
-         intent.putExtra(Constant.KEY_DOWNLOAD_ENTY, downloadEnty);
-         intent.setAction(Constant.KEY_DOWNLOAD_RESUM);
-         context.startService(intent);
-     }
+    public void resumEnty(Context context,DownloadEnty downloadEnty){
+        Intent intent = new Intent(context,DownloadService.class);
+        intent.putExtra(Constant.KEY_DOWNLOAD_ENTY, downloadEnty);
+        intent.setAction(Constant.KEY_DOWNLOAD_RESUM);
+        context.startService(intent);
+    }
 
     public void addObserve(DataWhatcher dataWhatcher){
         DataChanger.getInstance().addObserver(dataWhatcher);

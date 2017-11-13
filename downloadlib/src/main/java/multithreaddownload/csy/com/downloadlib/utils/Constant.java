@@ -13,4 +13,5 @@ public class Constant {
     public static final String KEY_DOWNLOAD_RESUM = "key_download_resum";
     public static final String KEY_DOWNLOAD_PAUSE = "key_download_pause";
     public static final String KEY_DOWNLOAD_CANSEL = "key_download_cansel";
+    public static final int MAX_DOWNLOAD_NUM = 3;
 }

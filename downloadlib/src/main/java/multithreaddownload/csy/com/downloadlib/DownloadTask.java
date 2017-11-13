@@ -22,8 +22,8 @@ public class DownloadTask implements Runnable {
     public void startDownload() {
         downloadEnty.downloadStatus = DownloadEnty.DownloadStatus.downloading;
         DownloadManager.getInstance().postStatus(downloadEnty);
-        downloadEnty.totalLenth = 1024*100;
-        for(int i=downloadEnty.currentLenth;i<downloadEnty.totalLenth;i+=1024){
+        downloadEnty.totalLenth = 1024*10;
+        for(int i= downloadEnty.currentLenth;i<downloadEnty.totalLenth;i+=1024){
             if (isCanseled || isPaused){
                 //更新取消或暂停状态
                 downloadEnty.downloadStatus = isCanseled ? DownloadEnty.DownloadStatus.downloadcansel:DownloadEnty.DownloadStatus.downloadpause;

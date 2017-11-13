@@ -1,5 +1,6 @@
 package multithreaddownload.csy.com.multithreaddownload;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -30,34 +31,43 @@ public class MultiTaskActivity extends AppCompatActivity implements View.OnClick
 
         @Override
         public void notifyDataChange(Object data) {
-            downloadEnty = (DownloadEnty) data;
-            //重写了对象的hashCode,根据ID比较
-            final int id = downloadEntys.indexOf(downloadEnty);
-            if (id!=-1) {
-                //子线程回调回来的
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        downloadEntys.set(id, downloadEnty);
-                        downloadAdapter.notifyDataSetChanged();
-                    }
-                });
-            }
-            if (downloadEnty.downloadStatus == DownloadEnty.DownloadStatus.downloading) {
-                LogUtil.e("download", "===notifyDataChange===downloading"+"=="+downloadEnty.fileName+"==" + downloadEnty.currentLenth);
-            } else if (downloadEnty.downloadStatus == DownloadEnty.DownloadStatus.downloadcomplete) {
-                LogUtil.e("download", "===notifyDataChange===downloadcomplete"+"=="+downloadEnty.fileName+"==" );
-            } else if (downloadEnty.downloadStatus == DownloadEnty.DownloadStatus.downloadcansel) {
-                downloadEnty = null;
-                LogUtil.e("download", "===notifyDataChange===downloadcansel"+"=="+downloadEnty.fileName+"==");
-            } else if (downloadEnty.downloadStatus == DownloadEnty.DownloadStatus.downloadpause) {
-                LogUtil.e("download", "===notifyDataChange===downloadpause"+"=="+downloadEnty.fileName+"==");
-            } else {
-                LogUtil.e("download", "===notifyDataChange===下载进度" +"=="+downloadEnty.fileName+"==" + downloadEnty.currentLenth);
-            }
-
+            dealWithChange(data);
         }
     };
+
+    /**
+     * 更新状态,需要加个同步,因为子线程中notify的
+     *
+     * @param data
+     */
+    private synchronized void dealWithChange(Object data) {
+        downloadEnty = (DownloadEnty) data;
+        if (downloadEnty==null){
+            LogUtil.e("download", "===notifyDataChange===null");
+        }
+        //重写了对象的hashCode,根据ID比较
+        final int id = downloadEntys.indexOf(downloadEnty);
+        if (id!=-1) {
+            //子线程回调回来的
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    downloadEntys.set(id, downloadEnty);
+                    downloadAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+        if (downloadEnty.downloadStatus == DownloadEnty.DownloadStatus.downloading) {
+            LogUtil.e("download",downloadEnty.fileName + "===downloading"+"=="+downloadEnty.fileName+"==" + downloadEnty.currentLenth+"=="+downloadEnty.fileUrl);
+        } else if (downloadEnty.downloadStatus == DownloadEnty.DownloadStatus.downloadcomplete) {
+            LogUtil.e("download",downloadEnty.fileName + "===ndownloadcomplete");
+        } else if (downloadEnty.downloadStatus == DownloadEnty.DownloadStatus.downloadcansel) {
+            downloadEnty = null;
+            LogUtil.e("download",downloadEnty.fileName + "===downloadcansel");
+        } else if (downloadEnty.downloadStatus == DownloadEnty.DownloadStatus.downloadpause) {
+            LogUtil.e("download",downloadEnty.fileName + "===downloadpause");
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceStatu) {
@@ -129,12 +139,19 @@ public class MultiTaskActivity extends AppCompatActivity implements View.OnClick
             tvNameAndState.setText(enty.fileName + ":" + enty.downloadStatus);
             tvProgress.setText(enty.currentLenth + "/" + enty.totalLenth);
             final Button btDownload = (Button) view.findViewById(R.id.btDownload);
+
+            btDownload.setTextColor(Color.WHITE);
             if (null == enty.downloadStatus) {
                 btDownload.setText("开始下载");
             } else if (DownloadEnty.DownloadStatus.downloading == enty.downloadStatus) {
                 btDownload.setText("暂停下载");
+                btDownload.setTextColor(getColor(R.color.colorAccent));
             }else if (DownloadEnty.DownloadStatus.downloadpause == enty.downloadStatus) {
                 btDownload.setText("恢复下载");
+            }else if (DownloadEnty.DownloadStatus.downloadcomplete == enty.downloadStatus) {
+                btDownload.setText("已下载");
+            }else if (DownloadEnty.DownloadStatus.downloadWaiting == enty.downloadStatus) {
+                btDownload.setText("等待下载");
             }
             btDownload.setOnClickListener(new View.OnClickListener() {
                 @Override
