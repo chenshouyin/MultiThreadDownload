@@ -59,7 +59,7 @@ public class DownloadManager  {
     }
 
     public void removeObserve(DataWhatcher dataWhatcher){
-        DataChanger.getInstance().addObserver(dataWhatcher);
+        DataChanger.getInstance().deleteObserver(dataWhatcher);
     }
 
     public void postStatus(DownloadEnty downloadEnty){

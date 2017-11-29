@@ -17,6 +17,7 @@ import java.util.List;
 import multithreaddownload.csy.com.downloadlib.DataWhatcher;
 import multithreaddownload.csy.com.downloadlib.DownloadEnty;
 import multithreaddownload.csy.com.downloadlib.DownloadManager;
+import multithreaddownload.csy.com.downloadlib.sp.SpUtils;
 import multithreaddownload.csy.com.downloadlib.utils.LogUtil;
 
 
@@ -48,6 +49,10 @@ public class MultiTaskActivity extends AppCompatActivity implements View.OnClick
         //重写了对象的hashCode,根据ID比较
         final int id = downloadEntys.indexOf(downloadEnty);
         if (id!=-1) {
+            //保存下载状态
+            if (null != downloadEntys){
+                SpUtils.getInstance(MultiTaskActivity.this).putBean(MultiTaskActivity.class.getSimpleName(),downloadEntys);
+            }
             //子线程回调回来的
             runOnUiThread(new Runnable() {
                 @Override
@@ -76,15 +81,22 @@ public class MultiTaskActivity extends AppCompatActivity implements View.OnClick
         initView();
         LogUtil.isDbug = true;
 
+        DownloadManager.getInstance().addObserve(dataWhatcher);
         downloadManager = new DownloadManager();
-        downloadEntys = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            DownloadEnty downloadEnty = new DownloadEnty();
-            downloadEnty.id = ""+i;
-            downloadEnty.fileName = "下载任务" + i;
-            downloadEnty.fileUrl = "http://api.stay4it.com/uploads/test.jpg";
-            downloadEntys.add(downloadEnty);
+         //取出保存的下载状态
+        if (null != SpUtils.getInstance(MultiTaskActivity.this).getBean(MultiTaskActivity.class.getSimpleName())){
+            downloadEntys = (List<DownloadEnty>) SpUtils.getInstance(MultiTaskActivity.this).getBean(MultiTaskActivity.class.getSimpleName());
+        }else{
+            downloadEntys = new ArrayList<>();
+            for (int i = 0; i < 10; i++) {
+                DownloadEnty downloadEnty = new DownloadEnty();
+                downloadEnty.id = "" + i;
+                downloadEnty.fileName = "下载任务" + i;
+                downloadEnty.fileUrl = "http://api.stay4it.com/uploads/test.jpg";
+                downloadEntys.add(downloadEnty);
+            }
         }
+
         downloadAdapter = new DownloadManagerAdapter();
         listView.setAdapter(downloadAdapter);
     }
@@ -102,13 +114,11 @@ public class MultiTaskActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onResume() {
         super.onResume();
-        DownloadManager.getInstance().addObserve(dataWhatcher);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        DownloadManager.getInstance().removeObserve(dataWhatcher);
     }
 
 
@@ -174,4 +184,9 @@ public class MultiTaskActivity extends AppCompatActivity implements View.OnClick
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DownloadManager.getInstance().removeObserve(dataWhatcher);
+    }
 }
