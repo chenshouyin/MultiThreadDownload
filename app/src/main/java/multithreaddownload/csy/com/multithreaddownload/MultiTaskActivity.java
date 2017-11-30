@@ -1,9 +1,12 @@
 package multithreaddownload.csy.com.multithreaddownload;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -21,7 +24,7 @@ import multithreaddownload.csy.com.downloadlib.sp.SpUtils;
 import multithreaddownload.csy.com.downloadlib.utils.LogUtil;
 
 
-public class MultiTaskActivity extends AppCompatActivity implements View.OnClickListener {
+public class MultiTaskActivity extends Activity implements View.OnClickListener {
 
     private ListView listView;
     private List<DownloadEnty> downloadEntys;
@@ -49,10 +52,10 @@ public class MultiTaskActivity extends AppCompatActivity implements View.OnClick
         //重写了对象的hashCode,根据ID比较
         final int id = downloadEntys.indexOf(downloadEnty);
         if (id!=-1) {
-            //保存下载状态
-            if (null != downloadEntys){
-                SpUtils.getInstance(MultiTaskActivity.this).putBean(MultiTaskActivity.class.getSimpleName(),downloadEntys);
-            }
+//            //保存下载状态
+//            if (null != downloadEntys){
+//                SpUtils.getInstance(MultiTaskActivity.this).putBean(MultiTaskActivity.class.getSimpleName(),downloadEntys);
+//            }
             //子线程回调回来的
             runOnUiThread(new Runnable() {
                 @Override
@@ -81,6 +84,8 @@ public class MultiTaskActivity extends AppCompatActivity implements View.OnClick
         initView();
         LogUtil.isDbug = true;
 
+        ActionBar actionBar = getActionBar();
+        actionBar.show();
         DownloadManager.getInstance().addObserve(dataWhatcher);
         downloadManager = new DownloadManager();
          //取出保存的下载状态
@@ -188,5 +193,28 @@ public class MultiTaskActivity extends AppCompatActivity implements View.OnClick
     protected void onDestroy() {
         super.onDestroy();
         DownloadManager.getInstance().removeObserve(dataWhatcher);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.menuStart) {
+            //全部开始
+            DownloadManager.getInstance().startAll(MultiTaskActivity.this);
+            return true;
+        }
+        if (item.getItemId() == R.id.menuPause) {
+            //全部暂停
+            DownloadManager.getInstance().pauseAll(MultiTaskActivity.this);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -3,6 +3,10 @@ package multithreaddownload.csy.com.downloadlib;
 import android.content.Context;
 import android.content.Intent;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import multithreaddownload.csy.com.downloadlib.sp.SpUtils;
 import multithreaddownload.csy.com.downloadlib.utils.Constant;
 
 /**
@@ -13,9 +17,15 @@ import multithreaddownload.csy.com.downloadlib.utils.Constant;
 
 public class DownloadManager  {
     private static DownloadManager downloadManager;
+    private Map<String,DownloadEnty> mapDownLoadEnties = new HashMap();
 
+    public SpUtils getSpUtils() {
+        return spUtils;
+    }
+
+    private SpUtils spUtils = new SpUtils();
     public synchronized static DownloadManager getInstance(){
-        if (null == null){
+        if (downloadManager == null){
             downloadManager = new DownloadManager();
         }
         return downloadManager;
@@ -63,8 +73,29 @@ public class DownloadManager  {
     }
 
     public void postStatus(DownloadEnty downloadEnty){
-
+        //保存下载的每一个任务到内存,同时还要保存到本地,防止应用被强杀数据丢失
+        mapDownLoadEnties.put(downloadEnty.id,downloadEnty);
+        spUtils.putBean(downloadEnty.id,downloadEnty);
         DataChanger.getInstance().notifyDataChange(downloadEnty);
     }
 
+
+    public void pauseAll(Context context){
+        for (DownloadEnty enty : mapDownLoadEnties.values()) {
+            if (enty.downloadStatus == DownloadEnty.DownloadStatus.downloading
+                    || enty.downloadStatus == DownloadEnty.DownloadStatus.downloadWaiting){
+                //下载中的任务 暂停
+                pauseEnty(context,enty);
+            }
+        }
+    }
+
+    public void startAll(Context context){
+        for (DownloadEnty enty : mapDownLoadEnties.values()) {
+            if (enty.downloadStatus == DownloadEnty.DownloadStatus.downloadpause){
+                //下载中的任务 开始
+                resumEnty(context,enty);
+            }
+        }
+    }
 }

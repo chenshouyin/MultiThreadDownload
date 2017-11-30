@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.youli.feiyu.fynotification.MainActivity">
+    <item
+        android:id="@+id/menuStart"
+        android:orderInCategory="0"
+        android:icon="@mipmap/ic_launcher"
+        android:title="全部开始"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menuPause"
+        android:orderInCategory="1"
+        android:icon="@mipmap/ic_launcher"
+        android:title="全部暂停"
+        app:showAsAction="ifRoom" />
+</menu>

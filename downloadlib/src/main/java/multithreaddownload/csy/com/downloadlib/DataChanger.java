@@ -38,7 +38,6 @@ public class DataChanger extends Observable{
     }
 
     public void notifyDataChange(DownloadEnty mDownloadEnty){
-        //TODO 关联查看Java源码
         //Marks this <tt>Observable</tt> object as having been changed
         setChanged();
         //通知观察者 改变的内容 也可不传递具体内容 notifyObservers()
