@@ -17,6 +17,11 @@ import multithreaddownload.csy.com.downloadlib.utils.Constant;
 
 public class DownloadManager  {
     private static DownloadManager downloadManager;
+
+    public Map<String, DownloadEnty> getMapDownLoadEnties() {
+        return mapDownLoadEnties;
+    }
+
     private Map<String,DownloadEnty> mapDownLoadEnties = new HashMap();
 
     public SpUtils getSpUtils() {
@@ -74,9 +79,9 @@ public class DownloadManager  {
 
     public void postStatus(DownloadEnty downloadEnty){
         //保存下载的每一个任务到内存,同时还要保存到本地,防止应用被强杀数据丢失
+        DataChanger.getInstance().notifyDataChange(downloadEnty);
         mapDownLoadEnties.put(downloadEnty.id,downloadEnty);
         spUtils.putBean(downloadEnty.id,downloadEnty);
-        DataChanger.getInstance().notifyDataChange(downloadEnty);
     }
 
 
@@ -92,7 +97,8 @@ public class DownloadManager  {
 
     public void startAll(Context context){
         for (DownloadEnty enty : mapDownLoadEnties.values()) {
-            if (enty.downloadStatus == DownloadEnty.DownloadStatus.downloadpause){
+            if (enty.downloadStatus == DownloadEnty.DownloadStatus.downloadpause
+                    || enty.downloadStatus == DownloadEnty.DownloadStatus.downloadpause || enty.downloadStatus == null){
                 //下载中的任务 开始
                 resumEnty(context,enty);
             }

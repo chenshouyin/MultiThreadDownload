@@ -94,7 +94,7 @@ public class DownloadService extends Service{
             pauseDownload(downloadEnty);
         }else if(Constant.KEY_DOWNLOAD_CANSEL.equals(intent.getAction())){
             //取消下载
-            LogUtil.e("download","===KEY_DOWNLOAD_RESUM===");
+            LogUtil.e("download","===KEY_DOWNLOAD_CANSEL===");
             canselDownload(downloadEnty);
         }else if(Constant.KEY_DOWNLOAD_RESUM.equals(intent.getAction())){
             //恢复下载

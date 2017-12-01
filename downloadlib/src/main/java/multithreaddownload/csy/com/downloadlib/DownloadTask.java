@@ -1,5 +1,7 @@
 package multithreaddownload.csy.com.downloadlib;
 
+import multithreaddownload.csy.com.downloadlib.utils.LogUtil;
+
 /**
  * Created by chenshouyin on 2017/10/30.
  * 我的博客:http://blog.csdn.net/e_inch_photo
@@ -21,6 +23,7 @@ public class DownloadTask implements Runnable {
      */
     public void startDownload() {
         downloadEnty.downloadStatus = DownloadEnty.DownloadStatus.downloading;
+        LogUtil.e("download", "===DownloadTask==开始下载===发布更新");
         DownloadManager.getInstance().postStatus(downloadEnty);
         downloadEnty.totalLenth = 1024*10;
         for(int i= downloadEnty.currentLenth;i<downloadEnty.totalLenth;i+=1024){

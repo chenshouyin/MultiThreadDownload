@@ -14,7 +14,7 @@ public class DownloadEnty implements Serializable{
     public String fileName;
     public int currentLenth;
     public int totalLenth;
-    public enum DownloadStatus{downloading,downloadcansel,downloadcomplete,downloadpause, downloadWaiting, downloadresum}
+    public enum DownloadStatus{downloading,downloadcansel,downloadcomplete,downloadpause, downloadWaiting}
     public DownloadStatus downloadStatus;
 
 

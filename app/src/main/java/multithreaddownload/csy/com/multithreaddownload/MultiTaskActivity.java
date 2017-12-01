@@ -46,9 +46,6 @@ public class MultiTaskActivity extends Activity implements View.OnClickListener 
      */
     private synchronized void dealWithChange(Object data) {
         downloadEnty = (DownloadEnty) data;
-        if (downloadEnty==null){
-            LogUtil.e("download", "===notifyDataChange===null");
-        }
         //重写了对象的hashCode,根据ID比较
         final int id = downloadEntys.indexOf(downloadEnty);
         if (id!=-1) {
@@ -99,6 +96,8 @@ public class MultiTaskActivity extends Activity implements View.OnClickListener 
                 downloadEnty.fileName = "下载任务" + i;
                 downloadEnty.fileUrl = "http://api.stay4it.com/uploads/test.jpg";
                 downloadEntys.add(downloadEnty);
+                //保存待下载的任务到内存
+                DownloadManager.getInstance().getMapDownLoadEnties().put(downloadEntys.get(i).id,downloadEnty);
             }
         }
 
